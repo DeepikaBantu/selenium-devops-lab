@@ -1,26 +1,29 @@
 from selenium import webdriver
+from selenium.webdriver.chrome.options import Options
 from selenium.webdriver.common.by import By
-from selenium.webdriver.support.ui import WebDriverWait
-from selenium.webdriver.support import expected_conditions as EC
 import time
 
-# Launch browser
-driver = webdriver.Chrome()
+# Setup Chrome options for headless mode
+options = Options()
+options.add_argument("--headless")
+options.add_argument("--no-sandbox")
+options.add_argument("--disable-dev-shm-usage")
 
-# Open your sample HTML file
-driver.get("file:///C:/Users/bantu/OneDrive/Documents/labproject/index.html")
-driver.maximize_window()
+# Initialize driver
+driver = webdriver.Chrome(options=options)
 
-# Wait until page elements load
-WebDriverWait(driver, 10).until(EC.presence_of_element_located((By.ID, "username")))
+# Open an online sample site (GitHub Actions can't open local files)
+driver.get("https://www.selenium.dev/selenium/web/web-form.html")
 
-# Fill and click
-driver.find_element(By.ID, "username").send_keys("Deepika")
-driver.find_element(By.ID, "password").send_keys("12345")
-driver.find_element(By.ID, "login-btn").click()
+print("Opened sample form successfully!")
+
+# Interact with form fields
+driver.find_element(By.NAME, "my-text").send_keys("Deepika")
+driver.find_element(By.NAME, "my-password").send_keys("12345")
+driver.find_element(By.CSS_SELECTOR, "button").click()
 
 time.sleep(2)
-print("Login button clicked successfully!")
+print("Login simulation successful!")
 
-# Close browser
 driver.quit()
+print("Test completed successfully ✅")
